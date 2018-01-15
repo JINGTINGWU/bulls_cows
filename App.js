@@ -17,6 +17,7 @@ export default class App extends Component<{}> {
     super(props);
     this.state = {
       isPlay: false,
+      success: false,
       flatListSource: []
     };
   }
@@ -24,7 +25,7 @@ export default class App extends Component<{}> {
   onPressNewGame = () => {
     this.guessNumbers.onPressNewGame();
     this.keyboard._reset();
-    this.setState({isPlay: true, flatListSource: []});
+    this.setState({isPlay: true, flatListSource: [], success: false});
   }
 
   onPressAbandon = () => {
@@ -32,6 +33,7 @@ export default class App extends Component<{}> {
     this.keyboard._reset();
     this.setState({isPlay: false, flatListSource: []});
   }
+  
 
   checkNumber = (guessNum, myNum) => {
     let a = 0;//有幾個是相同數字相同位置
@@ -80,7 +82,7 @@ export default class App extends Component<{}> {
 
         if(ab[0] === 4){
           this.onPressAbandon();
-          this.dropdown.alertWithType('success', 'Success', `您猜對了!${myNum}`);
+          this.setState({success: true});
         }else{
           this.keyboard._reset();
         }
@@ -95,6 +97,7 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={{color:'red', fontSize:24, display:(this.state.success?'flex':'none')}}>{`您猜對了!`}</Text>
         <View style={styles.toolbarContainer}>
           <Button
             style={styles.button}
